@@ -30,11 +30,8 @@ return (
       <Route path="/cadastro" element={<CadastroUsuario />} />
       <Route path="/produtos" element={<ListaProdutos produtos={[]} aoExcluir={() => {}} aoEditar={() => {}} aoDeslogar={aoDeslogar} />} />
       <Route path="/esqueci-senha" element={<EsqueciSenha />} />
-
-      {/* 🔧 Novas rotas de dashboard */}
       <Route path="/dashboard-empresa" element={<DashboardEmpresa />} />
       <Route path="/dashboard-funcionario" element={<DashboardFuncionario />} />
-
       <Route path="*" element={<Navigate to="/login" />} />
     </Routes>
   );

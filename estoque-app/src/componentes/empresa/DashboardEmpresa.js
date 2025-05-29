@@ -3,14 +3,13 @@ import Sidebar from './Sidebar';
 import CardDeposito from './CardDeposito';
 import TelaDeposito from './TelaDeposito';
 import ModalDeposito from './ModalDeposito';
-
+import api from '../../axiosConfig';
 
 export default function DashboardEmpresa() {
   const [depositos, setDepositos] = useState([]);
   const [depositoAtivo, setDepositoAtivo] = useState(null);
-  const [mostrarModal, setMostrarModal] = useState(false); // controla visibilidade do modal
-  const [depositoEditar, setDepositoEditar] = useState(null); // usado para edição (null = criar)
-
+  const [mostrarModal, setMostrarModal] = useState(false);
+  const [depositoEditar, setDepositoEditar] = useState(null);
 
   function aoDeslogar() {
     localStorage.removeItem('token');
@@ -20,26 +19,26 @@ export default function DashboardEmpresa() {
   }
 
   useEffect(() => {
-    async function carregarDepositos() {
-      try {
-        const empresa_id = localStorage.getItem('empresa_id');
-        const resposta = await fetch(`http://localhost:3001/depositos?empresa_id=${empresa_id}`);
-        const dados = await resposta.json();
-        setDepositos(Array.isArray(dados) ? dados : []);
-      } catch (erro) {
-        console.error('Erro ao carregar depósitos:', erro);
-      }
-    }
-    carregarDepositos();
+    atualizarDepositos();
   }, []);
 
-function atualizarDepositos() {
-  const empresa_id = localStorage.getItem('empresa_id');
-  fetch(`http://localhost:3001/depositos?empresa_id=${empresa_id}`)
-    .then(res => res.json())
-    .then(dados => setDepositos(Array.isArray(dados) ? dados : []))
-    .catch(err => console.error('Erro ao atualizar depósitos:', err));
-}
+  function atualizarDepositos() {
+    api.get('/depositos')
+      .then(res => {
+        console.log("📦 Dados recebidos do backend:", res.data);
+        setDepositos(Array.isArray(res.data) ? res.data : []);
+      })
+      .catch(err => console.error('Erro ao atualizar depósitos:', err));
+  }
+
+  async function excluirDeposito(id) {
+    try {
+      await api.delete(`/depositos/${id}`);
+      atualizarDepositos();
+    } catch (erro) {
+      console.error('Erro ao excluir depósito:', erro);
+    }
+  }
 
   return (
     <div className="min-h-screen bg-[#91592A] text-white p-6 relative">
@@ -56,35 +55,35 @@ function atualizarDepositos() {
                 nome={deposito.nome}
                 onEntrar={() => setDepositoAtivo(deposito.id)}
                 onEditar={() => {
-                  setDepositoEditar(deposito); // define modo edição
-                  setMostrarModal(true);        // exibe o modal
+                  setDepositoEditar(deposito);
+                  setMostrarModal(true);
                 }}
+                onExcluir={() => excluirDeposito(deposito.id)} // ✅ NOVO
               />
             ))}
-            
-            <div
-            className="bg-white text-[#91592A] flex items-center justify-center text-4xl rounded-lg cursor-pointer hover:bg-gray-100 h-28"
-            onClick={() => {
-            setDepositoEditar(null);       // define modo criação
-            setMostrarModal(true);         // exibe o modal
-            }}
-            >
-            +
-            </div>
 
+            <div
+              className="bg-white text-[#91592A] flex items-center justify-center text-4xl rounded-lg cursor-pointer hover:bg-gray-100 h-28"
+              onClick={() => {
+                setDepositoEditar(null);
+                setMostrarModal(true);
+              }}
+            >
+              +
+            </div>
           </div>
         </div>
       ) : (
         <TelaDeposito depositoId={depositoAtivo} onVoltar={() => setDepositoAtivo(null)} />
       )}
-    <ModalDeposito
-  aberto={mostrarModal}
-  onFechar={() => setMostrarModal(false)}
-  editar={!!depositoEditar}
-  depositoEditar={depositoEditar}
-  onSucesso={atualizarDepositos}
-/>
 
+      <ModalDeposito
+        aberto={mostrarModal}
+        onFechar={() => setMostrarModal(false)}
+        editar={!!depositoEditar}
+        depositoEditar={depositoEditar}
+        onSucesso={atualizarDepositos}
+      />
     </div>
   );
 }

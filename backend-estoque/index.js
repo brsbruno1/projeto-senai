@@ -154,6 +154,27 @@ app.put('/depositos/:id', autenticar, (req, res) => {
   });
 });
 
+// ✅ ROTA: Deletar depósito
+app.delete('/depositos/:id', autenticar, (req, res) => {
+  const { id } = req.params;
+
+  const sql = 'DELETE FROM depositos WHERE id = ?';
+  conexao.query(sql, [id], (err, resultado) => {
+    if (err) {
+      console.error('Erro ao deletar depósito:', err);
+      return res.status(500).json({ erro: 'Erro ao deletar depósito.' });
+    }
+
+    if (resultado.affectedRows === 0) {
+      return res.status(404).json({ erro: 'Depósito não encontrado.' });
+    }
+
+    return res.json({ mensagem: 'Depósito deletado com sucesso.' });
+  });
+});
+
+
+
 
 
 // PUT /produtos/:id
