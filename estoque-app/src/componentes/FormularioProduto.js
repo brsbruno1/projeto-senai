@@ -40,14 +40,14 @@ export default function FormularioProduto({ aoAdicionar }) {
       className="max-w-lg mx-auto bg-[#91592A] p-6 rounded-xl shadow-md space-y-4"
     >
       <h1 className="text-2xl font-bold text-white mb-4 text-center">
-        Controle de Estoque
+        Adicionar Produto
       </h1>
 
       <input
         value={nome}
         onChange={e => setNome(e.target.value)}
         placeholder="Nome do produto"
-        className="w-full p-2 border border-gray-300 rounded"
+        className="w-full p-2 border border-gray-300 rounded text-black"
         required
       />
 
@@ -56,7 +56,7 @@ export default function FormularioProduto({ aoAdicionar }) {
         onChange={e => setQuantidade(e.target.value)}
         placeholder="Quantidade"
         type="number"
-        className="w-full p-2 border border-gray-300 rounded"
+        className="w-full p-2 border border-gray-300 rounded text-black"
         required
       />
 
@@ -66,7 +66,7 @@ export default function FormularioProduto({ aoAdicionar }) {
         placeholder="Preço"
         type="number"
         step="0.01"
-        className="w-full p-2 border border-gray-300 rounded"
+        className="w-full p-2 border border-gray-300 rounded text-black"
       />
 
       <input
@@ -74,7 +74,7 @@ export default function FormularioProduto({ aoAdicionar }) {
         onChange={e => setValidade(e.target.value)}
         placeholder="Validade"
         type="date"
-        className="w-full p-2 border border-gray-300 rounded"
+        className="w-full p-2 border border-gray-300 rounded text-black"
       />
 
       <input
@@ -82,14 +82,14 @@ export default function FormularioProduto({ aoAdicionar }) {
         onChange={e => setEstoqueMin(e.target.value)}
         placeholder="Estoque mínimo"
         type="number"
-        className="w-full p-2 border border-gray-300 rounded"
+        className="w-full p-2 border border-gray-300 rounded text-black"
       />
 
       <button
         type="submit"
         className="w-full bg-white text-[#91592A] font-bold p-2 rounded hover:bg-gray-200"
       >
-        Adicionar Produto
+        Adicionar
       </button>
     </form>
   );
