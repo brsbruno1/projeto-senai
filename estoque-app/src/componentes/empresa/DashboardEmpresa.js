@@ -58,7 +58,7 @@ export default function DashboardEmpresa() {
                   setDepositoEditar(deposito);
                   setMostrarModal(true);
                 }}
-                onExcluir={() => excluirDeposito(deposito.id)} // ✅ NOVO
+                onExcluir={() => excluirDeposito(deposito.id)}
               />
             ))}
 
