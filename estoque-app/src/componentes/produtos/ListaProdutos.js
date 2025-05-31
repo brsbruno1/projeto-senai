@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import api from "../axiosConfig";
-import ModalEditarProduto from "./ModalEditarProduto";
-import ModalAdicionarProduto from "./ModalAdicionarProduto";
+import api from "../../axiosConfig";
+import ModalEditarProduto from "../produtos/ModalEditarProduto";
+import ModalAdicionarProduto from "../produtos/ModalAdicionarProduto";
 
 export default function ListaProdutos({ aoDeslogar }) {
   const [produtos, setProdutos] = useState([]);

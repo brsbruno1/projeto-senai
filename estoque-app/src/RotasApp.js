@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './componentes/Login';
 import CadastroUsuario from './componentes/funcionario/CadastroUsuario';
-import ListaProdutos from './componentes/ListaProdutos';
+import ListaProdutos from './componentes/produtos/ListaProdutos';
 import EsqueciSenha from './componentes/EsqueciSenha';
 import DashboardEmpresa from './componentes/empresa/DashboardEmpresa';
 import DashboardFuncionario from './componentes/funcionario/DashboardFuncionario';
