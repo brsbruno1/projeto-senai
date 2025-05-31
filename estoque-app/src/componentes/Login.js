@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import api from '../axiosConfig';
+import api, { setAuthToken } from '../axiosConfig';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
@@ -20,8 +20,10 @@ export default function Login({ aoLogar }) {
         tipo,
       });
 
-      const token = resposta.data.token || resposta.data?.token;
-      localStorage.setItem('token', token);
+      // Exemplo após login bem-sucedido:
+      localStorage.setItem("token", resposta.data.token);
+      setAuthToken(resposta.data.token);
+
       localStorage.setItem('tipo', tipo); // ✅ salva o tipo para redirecionamento
       
       if (tipo === 'empresa') {

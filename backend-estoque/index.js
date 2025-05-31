@@ -1,32 +1,22 @@
 const express = require('express');
-const mysql = require('mysql');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const autenticar = require('./middlewares/autenticar');
+const rotaProdutos = require('./routes/produto');
+const conexao = require('./db'); // no index.js
 
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use('/produtos', rotaProdutos);
+
 
 const saltRounds = 10;
 const chaveSecreta = 'minha_chave_super_secreta';
 
-// Conexão com o banco
-const conexao = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'estoque'
-});
 
-conexao.connect(err => {
-  if (err) {
-    console.error('Erro ao conectar no banco:', err);
-  } else {
-    console.log('Conectado ao banco de dados!');
-  }
-});
+
 
 // LOGIN
 app.post("/login", async (req, res) => {
@@ -126,7 +116,11 @@ app.post('/produtos', autenticar, (req, res) => {
     VALUES (?, ?, ?, ?, ?, ?, ?)
   `;
   conexao.query(sql, [nome, quantidade, preco, validade, estoque_min, deposito_id, empresa_id], (err, resultado) => {
-    if (err) return res.status(500).send(err);
+    if (err) {
+  console.error("❌ ERRO MYSQL:", err.message); // log no terminal
+  return res.status(500).json({ erro: err.message }); // agora o front vai ver isso no alert
+}
+
     res.status(201).json({
       mensagem: 'Produto cadastrado com sucesso',
       id: resultado.insertId

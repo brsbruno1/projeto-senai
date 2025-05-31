@@ -2,18 +2,23 @@ const jwt = require('jsonwebtoken');
 const chaveSecreta = 'minha_chave_super_secreta';
 
 function autenticar(req, res, next) {
-const token = req.headers['authorization'];
-if (!token) return res.status(401).json({ erro: 'Token ausente' });
+  const token = req.headers.authorization;
 
-jwt.verify(token, chaveSecreta, (err, dados) => {
-    if (err) return res.status(403).json({ erro: 'Token inválido' });
+  if (!token) {
+    return res.status(401).json({ erro: 'Token não fornecido' });
+  }
 
-    req.usuario_id = dados.id;
-    req.usuario = dados.usuario;
-    req.tipo = dados.tipo;
-    req.empresa_id = dados.empresa_id;
-next();
-});
+  try {
+    const payload = jwt.verify(token.replace('Bearer ', ''), chaveSecreta);
+
+    req.empresa_id = payload.empresa_id; // ✅ ESSA LINHA É ESSENCIAL
+    req.tipo = payload.tipo;
+    req.user_id = payload.id;
+
+    next();
+  } catch (err) {
+    return res.status(401).json({ erro: 'Token inválido' });
+  }
 }
 
 module.exports = autenticar;

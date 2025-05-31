@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import api from '../axiosConfig';
+import api from '../../axiosConfig';
 
 export default function ModalEditarProduto({ produto, aoFechar, aoAtualizar }) {
   const [nome, setNome] = useState('');
