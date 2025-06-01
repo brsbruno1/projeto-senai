@@ -36,74 +36,76 @@ export default function ListaProdutos({ aoDeslogar }) {
 
   return (
     <div className="max-w-7xl mx-auto mt-10 px-4">
-      <div className="flex justify-between items-center mb-6 relative">
-        {/* Botão de adicionar produto */}
-        <button
-          onClick={() => setMostrarModalAdicionar(true)}
-          className="absolute left-4 top-0 text-[#91592A] border border-[#91592A] px-3 py-1 rounded hover:bg-[#91592A] hover:text-white"
-        >
-          + Produto
-        </button>
-
-        {/* Título */}
-        <h2 className="text-xl font-semibold text-[#91592A] text-center w-full">
-          Produtos Cadastrados
-        </h2>
-
-        {/* Botão logout */}
-        {aoDeslogar && (
+      <div className="relative p-10 bg-white rounded-2xl shadow-lg">
+        <div className="flex justify-between items-center mb-6 relative">
+          {/* Botão de adicionar produto */}
           <button
-            onClick={aoDeslogar}
-            className="absolute right-4 top-0 text-[#91592A] border border-[#91592A] px-3 py-1 rounded hover:bg-[#91592A] hover:text-white"
+            onClick={() => setMostrarModalAdicionar(true)}
+            className="absolute left-4 top-0 bg-black/60 text-white border border-[#015D4F] px-4 py-2 rounded-lg shadow hover:bg-[#015D4F]/80 hover:text-white transition"
           >
-            Logout
+            + Produto
           </button>
-        )}
-      </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {(produtos || []).map((produto, index) => {
-          const alertaEstoque = produto.quantidade < produto.estoque_min;
-          const alertaValidade = validadeProxima(produto.validade);
+          {/* Título */}
+          <h2 className="text-xl font-semibold text-[#015D4F] text-center w-full">
+            Produtos Cadastrados
+          </h2>
 
-          return (
-            <div
-              key={index}
-              className="bg-[#91592A] text-white p-4 rounded-xl shadow-md relative"
+          {/* Botão logout */}
+          {aoDeslogar && (
+            <button
+              onClick={aoDeslogar}
+              className="absolute right-4 top-0 bg-black/60 text-white border border-[#015D4F] px-4 py-2 rounded-lg shadow hover:bg-[#015D4F]/80 hover:text-white transition"
             >
-              <h3 className="text-lg font-bold mb-2">{produto.nome}</h3>
-              <p>Quantidade: {produto.quantidade}</p>
-              <p>Preço: R$ {typeof produto.preco === "number" ? produto.preco.toFixed(2) : "---"}</p>
-              <p>Validade: {produto.validade}</p>
+              Logout
+            </button>
+          )}
+        </div>
 
-              {alertaEstoque && (
-                <span className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded text-xs">
-                  Estoque Baixo
-                </span>
-              )}
-              {alertaValidade && (
-                <span className="absolute bottom-2 right-2 bg-yellow-400 text-black px-2 py-1 rounded text-xs">
-                  Validade Próxima
-                </span>
-              )}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {(produtos || []).map((produto, index) => {
+            const alertaEstoque = produto.quantidade < produto.estoque_min;
+            const alertaValidade = validadeProxima(produto.validade);
 
-              <div className="mt-4 flex justify-between">
-                <button
-                  onClick={() => setProdutoSelecionado(produto)}
-                  className="bg-white text-[#91592A] px-3 py-1 rounded"
-                >
-                  Editar
-                </button>
-                <button
-                  onClick={() => handleExcluirProduto(produto.id)}
-                  className="bg-red-600 text-white px-3 py-1 rounded"
-                >
-                  Excluir
-                </button>
+            return (
+              <div
+                key={index}
+                className="bg-black/60 text-white p-4 rounded-xl shadow-md relative border border-[#015D4F] backdrop-blur-sm"
+              >
+                <h3 className="text-lg font-bold mb-2">{produto.nome}</h3>
+                <p>Quantidade: {produto.quantidade}</p>
+                <p>Preço: R$ {typeof produto.preco === "number" ? produto.preco.toFixed(2) : "---"}</p>
+                <p>Validade: {produto.validade}</p>
+
+                {alertaEstoque && (
+                  <span className="absolute top-2 right-2 bg-red-500/90 text-white px-2 py-1 rounded text-xs shadow">
+                    Estoque Baixo
+                  </span>
+                )}
+                {alertaValidade && (
+                  <span className="absolute bottom-2 right-2 bg-yellow-400/90 text-black px-2 py-1 rounded text-xs shadow">
+                    Validade Próxima
+                  </span>
+                )}
+
+                <div className="mt-4 flex justify-between">
+                  <button
+                    onClick={() => setProdutoSelecionado(produto)}
+                    className="bg-white/90 text-[#015D4F] px-3 py-1 rounded shadow hover:bg-[#015D4F] hover:text-white transition"
+                  >
+                    Editar
+                  </button>
+                  <button
+                    onClick={() => handleExcluirProduto(produto.id)}
+                    className="bg-red-700/80 text-white px-3 py-1 rounded shadow hover:bg-red-800 transition"
+                  >
+                    Excluir
+                  </button>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
 
       {/* Modal de edição */}
