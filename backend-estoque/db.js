@@ -1,5 +1,7 @@
 const mysql = require('mysql');
 
+
+//comentarioo
 const conexao = mysql.createConnection({
   host: '192.168.10.107',
   user: 'pocket stock',
