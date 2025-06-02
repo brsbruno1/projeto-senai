@@ -10,6 +10,7 @@ export default function ModalEditarProduto({ produto, aoFechar, aoAtualizar }) {
 
   useEffect(() => {
     if (produto) {
+      console.log("🟢 Produto para edição:", produto);
       setNome(produto.nome);
       setQuantidade(produto.quantidade);
       setPreco(produto.preco);
@@ -41,32 +42,35 @@ export default function ModalEditarProduto({ produto, aoFechar, aoAtualizar }) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <form onSubmit={salvarEdicao} className="bg-white p-6 rounded-lg w-full max-w-md shadow-lg space-y-4 relative">
-        <h2 className="text-xl font-semibold text-[#91592A] text-center">Editar Produto</h2>
+        <h2 className="text-2xl font-bold mb-4 text-[#015D4F] text-center">Editar Produto</h2>
 
         <input
           value={nome}
           onChange={e => setNome(e.target.value)}
           placeholder="Nome"
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded text-[#015D4F] placeholder-[#015D4F] focus:outline-none focus:ring-2 focus:ring-[#015D4F]"
           required
         />
 
         <input
           value={quantidade}
           onChange={e => setQuantidade(e.target.value)}
-          type="number"
+          type="text"
+          inputMode="numeric"
+          pattern="[0-9]*"
           placeholder="Quantidade"
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded text-[#015D4F] placeholder-[#015D4F] focus:outline-none focus:ring-2 focus:ring-[#015D4F]"
           required
         />
 
         <input
           value={preco}
           onChange={e => setPreco(e.target.value)}
-          type="number"
+          type="text"
+          inputMode="decimal"
+          pattern="[0-9.]*"
           placeholder="Preço"
-          step="0.01"
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded text-[#015D4F] placeholder-[#015D4F] focus:outline-none focus:ring-2 focus:ring-[#015D4F]"
         />
 
         <input
@@ -74,28 +78,31 @@ export default function ModalEditarProduto({ produto, aoFechar, aoAtualizar }) {
           onChange={e => setValidade(e.target.value)}
           type="date"
           placeholder="Validade"
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded text-[#015D4F] placeholder-[#015D4F] focus:outline-none focus:ring-2 focus:ring-[#015D4F]"
+          style={{ colorScheme: "light" }}
         />
 
         <input
           value={estoqueMin}
           onChange={e => setEstoqueMin(e.target.value)}
-          type="number"
+          type="text"
+          inputMode="numeric"
+          pattern="[0-9]*"
           placeholder="Estoque mínimo"
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded text-[#015D4F] placeholder-[#015D4F] focus:outline-none focus:ring-2 focus:ring-[#015D4F]"
         />
 
-        <div className="flex justify-between mt-4">
+        <div className="flex justify-end gap-3 pt-2">
           <button
             type="button"
             onClick={aoFechar}
-            className="bg-gray-300 text-black px-4 py-2 rounded"
+            className="px-4 py-2 bg-transparent text-[#015D4F] rounded border border-[#015D4F] hover:bg-[#015D4F] hover:text-white transition"
           >
             Cancelar
           </button>
           <button
             type="submit"
-            className="bg-[#91592A] text-white px-4 py-2 rounded hover:bg-[#7a4723]"
+            className="px-4 py-2 bg-[#015D4F] text-white rounded hover:bg-[#013e35] transition"
           >
             Salvar
           </button>

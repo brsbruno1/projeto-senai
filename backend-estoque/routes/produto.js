@@ -79,6 +79,28 @@ router.put("/:id", autenticar, (req, res) => {
   );
 });
 
+router.put("/:id", autenticar, (req, res) => {
+  const { nome, quantidade, preco, validade, estoque_min, deposito_id } = req.body;
+  const { id } = req.params;
+
+  const sql = `
+    UPDATE produtos 
+    SET nome = ?, quantidade = ?, preco = ?, validade = ?, estoque_min = ?, deposito_id = ?
+    WHERE id = ?`;
+
+  conexao.query(
+    sql,
+    [nome, quantidade, preco, validade, estoque_min, deposito_id, id],
+    (err, resultado) => {
+      if (err) {
+        console.error("❌ Erro ao atualizar produto:", err.message);
+        return res.status(500).json({ erro: err.message });
+      }
+
+      res.json({ mensagem: "Produto atualizado com sucesso!" });
+    }
+  );
+});
 
 
 
