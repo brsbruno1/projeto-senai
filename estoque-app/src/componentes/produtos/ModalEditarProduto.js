@@ -27,7 +27,8 @@ export default function ModalEditarProduto({ produto, aoFechar, aoAtualizar }) {
         quantidade,
         preco,
         validade,
-        estoque_min: estoqueMin
+        estoque_min: estoqueMin,
+        deposito_id: produto.deposito_id
       });
 
       aoAtualizar();  // Atualiza lista no pai
