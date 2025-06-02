@@ -74,8 +74,8 @@ export default function TelaDeposito({ depositoId, depositoNome, onVoltar }) {
       {mostrarModalEditar && (
         <ModalEditarProduto
           produto={produtoSelecionado}
-          onClose={() => setMostrarModalEditar(false)}
-          onAtualizar={() => {
+          aoFechar={() => setMostrarModalEditar(false)}
+          aoAtualizar={() => {
             setMostrarModalEditar(false);
             api
               .get(`/produtos?deposito_id=${depositoId}`)
